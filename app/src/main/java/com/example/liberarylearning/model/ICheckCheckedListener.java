@@ -2,6 +2,6 @@ package com.example.liberarylearning.model;
 
 public interface ICheckCheckedListener {
 
-    void inChecked();
+    void isChecked();
     void noChecked();
 }

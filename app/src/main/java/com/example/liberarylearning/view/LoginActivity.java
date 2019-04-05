@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private LoginPresenter loginPresenter = new LoginPresenter(this);
     private LoginBinding loginBinding;
     private SharedPreferences sharedPreferences;
+    private boolean ifChecked;
+    private boolean ifRestoreChecked;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -65,17 +68,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
-
-
-
     @Override
     public void checkChecked(){
-        loginPresenter.checkChecked(LoginActivity.this);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBox.isChecked()){
+                    ifChecked = true;
+
+                }else {
+                    ifChecked = false;
+                }
+                loginPresenter.checkChecked(ifChecked);
+            }
+        });
     }
+
+
+
     @Override
     public void restoreChecked(){
-        loginPresenter.restoreChecked(LoginActivity.this);
+        sharedPreferences = getSharedPreferences("checked",0);
+        boolean checked = sharedPreferences.getBoolean("check",false);
+
+        if (checked){
+            ifRestoreChecked = true;
+        }else {
+            ifRestoreChecked = false;
+        }
+        loginPresenter.restoreChecked(ifRestoreChecked);
     }
     @Override
     public void firstRun() {
@@ -90,9 +111,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void loginSuccess(){
         //account为全局变量，在答题界面中作为SharedPreference缓存名称的一部分;
         account =loginBinding.getUsername();
+
         sharedPreferences = getSharedPreferences("checked",0);
-        sharedPreferences.edit().putString("account",getAccount()).apply();
-        sharedPreferences.edit().putString("password",getPassword()).apply();
+        sharedPreferences.edit().putString("account",loginBinding.getUsername()).apply();
+        sharedPreferences.edit().putString("password",loginBinding.getPassword()).apply();
 
         Intent intent = new Intent(LoginActivity.this,QuestionListActivity.class);
         startActivity(intent);
@@ -119,18 +141,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     @Override
     public String getPassword(){
+
         return loginBinding.getPassword();
-    }
-    @Override
-    public CheckBox getCheckBox(){
-        return checkBox;
+
     }
 
     @Override
-    public void restoreCheckListener(){
+    public void isRestoreCheck(){
+        checkBox.setChecked(true);
         loginBinding.setUsername(sharedPreferences.getString("account",""));
         loginBinding.setPassword(sharedPreferences.getString("password",""));
 
+    }
+    @Override
+    public void noRestoreCheck(){
+        checkBox.setChecked(false);
+    }
+
+    @Override
+    public void isChecked(){
+        sharedPreferences.edit().putString("account",loginBinding.getUsername()).apply();
+        sharedPreferences.edit().putString("password",loginBinding.getPassword()).apply();
+        sharedPreferences.edit().putBoolean("check",true).apply();
+    }
+    @Override
+    public void noChecked(){
+        sharedPreferences.edit().putBoolean("check",false).apply();
     }
 
 

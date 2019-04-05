@@ -2,6 +2,7 @@ package com.example.liberarylearning.viewmodel;
 
 import android.content.Context;
 
+import com.example.liberarylearning.model.ICheckCheckedListener;
 import com.example.liberarylearning.model.IFirstRunListener;
 import com.example.liberarylearning.model.ILoginListener;
 import com.example.liberarylearning.model.ILoginModel;
@@ -63,15 +64,32 @@ public class LoginPresenter {
 
     }
 
-    public void checkChecked(final Context context){
-        iLoginModel.checkChecked(context,iLoginView.getCheckBox(),iLoginView.getAccount(),iLoginView.getPassword());
+    public void checkChecked(final boolean ifChecked){
+
+        iLoginModel.checkChecked(ifChecked,new ICheckCheckedListener() {
+            @Override
+            public void isChecked() {
+
+            }
+
+            @Override
+            public void noChecked() {
+
+            }
+        });
     }
 
-    public void restoreChecked(Context context){
-        iLoginModel.restoreChecked(context, iLoginView.getAccount(), iLoginView.getCheckBox(), new IRestoreCheckListener() {
+    public void restoreChecked(boolean ifRestoreChecked){
+
+        iLoginModel.restoreChecked(ifRestoreChecked, new IRestoreCheckListener() {
             @Override
-            public void restoreCheckListener() {
-                iLoginView.restoreCheckListener();
+            public void isRestoreCheck() {
+                iLoginView.isRestoreCheck();
+            }
+
+            @Override
+            public void noRestoreCheck() {
+                iLoginView.noRestoreCheck();
             }
         });
 

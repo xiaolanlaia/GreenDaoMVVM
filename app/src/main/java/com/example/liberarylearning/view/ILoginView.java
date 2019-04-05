@@ -16,8 +16,10 @@ public interface ILoginView {
     void firstRun();
     String getAccount();
     String getPassword();
-    CheckBox getCheckBox();
-    void restoreCheckListener();
+    void isChecked();
+    void noChecked();
+    void isRestoreCheck();
+    void noRestoreCheck() ;
     void firstRunToast();
 
 
