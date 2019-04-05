@@ -3,8 +3,6 @@ package com.example.liberarylearning.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-
-
 import com.example.liberarylearning.MyApplication;
 import com.example.liberarylearning.bean.User;
 
@@ -12,7 +10,6 @@ import com.example.liberarylearning.greenDao.DaoSession;
 
 
 import java.util.List;
-
 
 public class LoginModel implements ILoginModel{
 
@@ -63,6 +60,7 @@ public class LoginModel implements ILoginModel{
             }
         }
     }
+
 
     @Override
     public void checkChecked(final boolean ifChecked,ICheckCheckedListener iCheckCheckedListener){

@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstance){
 
         super.onCreate(savedInstance);
+
         loginBinding = DataBindingUtil.setContentView(this,R.layout.login);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

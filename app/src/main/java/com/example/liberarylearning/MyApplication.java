@@ -29,9 +29,7 @@ public class MyApplication extends Application {
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
     }
-
     private DaoSession daoSession;
-
     public DaoSession getDaoSession() {
         return daoSession;
     }
